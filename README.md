@@ -89,6 +89,14 @@ image.download(['path/to/save/image.png'])
 image.open()
 ```
 
+### Image to Prompt
+
+```python
+from zerogpt.utils.tools import image_to_prompt
+
+resp = image_to_prompt('path/to/image.png')
+```
+
 ### Working with Dummy Context[^1]
 
 ```python
@@ -117,16 +125,17 @@ dummy.load("context.bin")
 # client.create_image(dummy)
 ```
 
+
 ## Parameters
 
-### send\_message
+### send_message
 
 * `input` (str or list): Text prompt or list of messages
 * `instruction` (str, optional): System instruction
 * `think` (bool, optional): Use model with deeper reasoning
 * `uncensored` (bool, optional): Use unrestricted mode
 
-### create\_image
+### create_image
 
 * `prompt` (str): Description of the desired image
 * `samples` (int, optional): Number of samples
