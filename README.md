@@ -1,29 +1,30 @@
 # ZeroGPT
-[![Версия](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/username/project/releases)
-[![Лицензия](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+
+[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/username/project/releases)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 ![Status](https://img.shields.io/badge/status-active-success.svg)
 ![Stage](https://img.shields.io/badge/stage-alpha-red.svg)
 
-ZeroGPT - это Python-библиотека для взаимодействия с API искусственного интеллекта, предоставляющая возможности генерации текста и изображений.
+**ZeroGPT** is a Python library for interacting with AI APIs, providing capabilities for text and image generation.
 
-## Особенности
+## Features
 
-- Генерация текста с использованием различных моделей
-- Создание изображений на основе текстовых описаний
-- Поддержка режима "uncensored" для более свободных ответов
-- Оптимизированная работа с памятью и данными
-- Поддержка потоковой передачи данных
-- Безопасная аутентификация запросов
+* Text generation using various models
+* Image creation based on textual descriptions
+* Support for "uncensored" mode for more unrestricted responses
+* Optimized memory and data handling
+* Streamed data support
+* Secure request authentication
 
-## Установка
+## Installation
 
 ```bash
 pip install zerogpt
 ```
 
-## Использование
+## Usage
 
-### Инициализация клиента
+### Client Initialization
 
 ```python
 from zerogpt import Client
@@ -31,34 +32,34 @@ from zerogpt import Client
 client = Client()
 ```
 
-### Генерация текста
+### Text Generation
 
 ```python
-# Простой запрос
-response = client.send_message("Привет, как дела?")
+# Simple request
+response = client.send_message("Hi, how are you?")
 
-# Запрос с инструкцией
+# Request with instruction
 response = client.send_message(
-    "Расскажи о космосе",
-    instruction="Ты - эксперт по астрономии"
+    "Tell me about space",
+    instruction="You are an astronomy expert"
 )
 
-# Использование режима "uncensored"
+# Using "uncensored" mode
 response = client.send_message(
-    "Расскажи о сложной теме",
+    "Explain a complex topic",
     uncensored=True
 )
 
-# Использование режима "think" (более глубокое мышление)
+# Using "think" mode (deeper reasoning)
 response = client.send_message(
-    "Реши сложную математическую задачу",
+    "Solve a difficult math problem",
     think=True
 )
 
-# контекст
+# With context
 messages=[
-    {"role": "user", "content": "Привет"},
-    {"role": "assistant", "content": "Здравствуйте!"}
+    {"role": "user", "content": "Hi"},
+    {"role": "assistant", "content": "Hello!"}
 ]
 response = client.send_message(
     messages,
@@ -66,10 +67,10 @@ response = client.send_message(
 )
 ```
 
-### Генерация изображений
+### Image Generation
 
 ```python
-# Создание изображения
+# Create image
 result = client.create_image(
     prompt="anime neko girl",
     samples=1,
@@ -78,77 +79,77 @@ result = client.create_image(
     steps=50
 )
 
-# Получение сгенерированного изображения
+# Get generated image
 image = client.get_image(result['data']['request_id'])
 
-# Сохранение изображения
+# Save image
 image.download(['path/to/save/image.png'])
 
-# Просмотр изображения
+# View image
 image.open()
 ```
 
-### Работа с контекстом Dummy[^1]
+### Working with Dummy Context[^1]
 
 ```python
 from zerogpt.utils.prompt import Dummy
 
-# Создание контекста
+# Create context
 dummy = Dummy()
 dummy.create(messages=[
-    {"role": "user", "content": "Привет"},
-    {"role": "assistant", "content": "Здравствуйте!"}
+    {"role": "user", "content": "Hi"},
+    {"role": "assistant", "content": "Hello!"}
 ])
 
-#так же возможен вариант с генерацией изображений:
+# Also possible for image generation
 dummy = Dummy()
 dummy.create(prompt='neko girl', steps=100)
-# Сохранение контекста
+
+# Save context
 dummy.save("context.bin")
 
-# Загрузка контекста
+# Load context
 dummy.load("context.bin")
 
-#для передачи нужно заменить messages на наш обьект:
-#client.send_message(dummy)
-#или
-#client.create_image(dummy)
+# Use instead of messages:
+# client.send_message(dummy)
+# or
+# client.create_image(dummy)
 ```
 
-## Параметры
+## Parameters
 
-### send_message
+### send\_message
 
-- `input` (str или list): Текст запроса или список сообщений
-- `instruction` (str, опционально): Системная инструкция
-- `think` (bool, опционально): Использовать модель с более глубоким мышлением
-- `uncensored` (bool, опционально): Использовать режим без ограничений
+* `input` (str or list): Text prompt or list of messages
+* `instruction` (str, optional): System instruction
+* `think` (bool, optional): Use model with deeper reasoning
+* `uncensored` (bool, optional): Use unrestricted mode
 
-### create_image
+### create\_image
 
-- `prompt` (str): Описание желаемого изображения
-- `samples` (int, опционально): Количество образцов
-- `resolution` (tuple, опционально): Разрешение изображения (ширина, высота)
-- `seed` (int, опционально): Сид для воспроизводимости
-- `steps` (int, опционально): Количество шагов генерации
-- `negative_prompt` (str, опционально): Описание нежелательных элементов
+* `prompt` (str): Description of the desired image
+* `samples` (int, optional): Number of samples
+* `resolution` (tuple, optional): Image resolution (width, height)
+* `seed` (int, optional): Seed for reproducibility
+* `steps` (int, optional): Number of generation steps
+* `negative_prompt` (str, optional): Description of undesired elements
 
-## Безопасность
+## Security
 
-Библиотека использует HMAC-SHA256 для подписи запросов и обеспечивает безопасную передачу данных. Все запросы аутентифицируются с использованием временных меток для предотвращения атак повторного воспроизведения.
+The library uses HMAC-SHA256 to sign requests and ensure secure data transmission. All requests are authenticated using timestamps to prevent replay attacks.
 
-## Требования
+## Requirements
 
-- Python 3.8+
+* Python 3.8+
 
-## Лицензия
+## License
 
 MIT License
-
 Copyright (c) 2025 RedPiar
 
-## Автор
+## Author
 
 [RedPiar](https://t.me/RedPiar)
 
-[^1]: Dummy предназначен для сжатия контекста и данных в целом, очень полезен для систем с малым запасом ОЗУ. также его можно сохранять для ещё большей экономии места!
+[^1]: Dummy is used to compress context and data in general, very useful for systems with low RAM. It can also be saved for even greater memory efficiency!
