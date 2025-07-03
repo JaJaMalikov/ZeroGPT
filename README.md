@@ -1,9 +1,11 @@
 # ZeroGPT
 
-[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/username/project/releases)
+[![Version](https://img.shields.io/badge/version-1.1.0-blue.svg)](https://github.com/username/project/releases)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 ![Status](https://img.shields.io/badge/status-active-success.svg)
 ![Stage](https://img.shields.io/badge/stage-alpha-red.svg)
+
+[Documentation](https://red-3.gitbook.io/zerogpt/)
 
 **ZeroGPT** is a Python library for interacting with AI APIs, providing capabilities for text and image generation.
 
