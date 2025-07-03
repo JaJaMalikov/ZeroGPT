@@ -5,9 +5,11 @@ import os
 
 class ZeroImage:
 	def __init__(self, images: list):
-		self.images = [images]
+		self.images = images
 
-	def download(self, path: list):
+	def download(self, path='./__zerogpt__/image.png'):
+		if isinstance(path, str):
+			path = [path]
 		if isinstance(path, list):
 			with httpx.Client(http2=True, timeout=30) as client:
 				for img, _path in zip(self.images, path):
@@ -18,7 +20,6 @@ class ZeroImage:
 							file.write(resp.content)
 					else:
 						raise Exception('[Error] Unknown')
-
 	def open(self, idx=0):
 		with httpx.Client(http2=True, timeout=30) as client:
 			resp = client.get(self.images[idx])
