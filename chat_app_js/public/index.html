@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>ZeroGPT Chat</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    #history { border: 1px solid #ccc; padding: 10px; height: 300px; overflow-y: scroll; }
+    .message { margin-bottom: 10px; }
+    .response { background-color: #f1f1f1; padding: 5px; }
+  </style>
+</head>
+<body>
+  <h1>ZeroGPT Chat</h1>
+  <div id="history"></div>
+  <input id="message" type="text" placeholder="Type a message" style="width:80%" />
+  <button onclick="sendMessage()">Send</button>
+  <script>
+    async function sendMessage() {
+      const msg = document.getElementById('message').value;
+      document.getElementById('message').value = '';
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: msg })
+      });
+      const data = await res.json();
+      addResponse(msg, data.response);
+    }
+    async function saveText(text) {
+      await fetch('/api/save', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text })
+      });
+    }
+    function addResponse(userMsg, modelMsg) {
+      const history = document.getElementById('history');
+      const wrapper = document.createElement('div');
+      wrapper.className = 'message';
+      wrapper.innerHTML = `<div><strong>You:</strong> ${userMsg}</div>` +
+        `<div class="response"><strong>Model:</strong> ${modelMsg} <button onclick="saveText(\`${modelMsg.replace(/`/g,'\\`')}\`)">Save</button></div>`;
+      history.appendChild(wrapper);
+      history.scrollTop = history.scrollHeight;
+    }
+  </script>
+</body>
+</html>
