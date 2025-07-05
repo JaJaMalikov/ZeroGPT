@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Chat App</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    #history div { margin-bottom: 10px; }
+    button { margin-left: 5px; }
+  </style>
+</head>
+<body>
+  <div id="history"></div>
+  <input type="text" id="message" placeholder="Votre message..." />
+  <button id="send">Envoyer</button>
+  <script>
+    const historyDiv = document.getElementById('history');
+    const messageInput = document.getElementById('message');
+    document.getElementById('send').addEventListener('click', async () => {
+      const text = messageInput.value.trim();
+      if (!text) return;
+      const res = await fetch('/api/message', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: text })
+      });
+      const data = await res.json();
+      const userDiv = document.createElement('div');
+      userDiv.textContent = 'Vous: ' + text;
+      historyDiv.appendChild(userDiv);
+
+      const botDiv = document.createElement('div');
+      botDiv.textContent = 'Bot: ' + data.response;
+      const saveBtn = document.createElement('button');
+      saveBtn.textContent = 'Sauvegarder';
+      saveBtn.addEventListener('click', async () => {
+        await fetch('/api/save', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text: data.response })
+        });
+      });
+      botDiv.appendChild(saveBtn);
+      historyDiv.appendChild(botDiv);
+      messageInput.value = '';
+    });
+  </script>
+</body>
+</html>
