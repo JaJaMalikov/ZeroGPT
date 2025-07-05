@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZeroGPT Chat</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        #messages { border: 1px solid #ccc; padding: 10px; height: 300px; overflow-y: scroll; }
+        .msg { margin-bottom: 10px; }
+        button { margin-left: 5px; }
+    </style>
+</head>
+<body>
+    <h1>ZeroGPT Chat</h1>
+    <div id="messages"></div>
+    <input type="text" id="input" placeholder="Type your message..." size="60" />
+    <button id="send">Send</button>
+
+    <script>
+    const messagesDiv = document.getElementById('messages');
+    const input = document.getElementById('input');
+    document.getElementById('send').addEventListener('click', async () => {
+        const text = input.value.trim();
+        if(!text) return;
+        input.value = '';
+        const res = await fetch('/api/message', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({message: text})
+        });
+        const data = await res.json();
+        addMessage('You: ' + text);
+        const msgEl = addMessage('Bot: ' + data.response);
+        const saveBtn = document.createElement('button');
+        saveBtn.textContent = 'Save';
+        saveBtn.onclick = async () => {
+            await fetch('/api/save', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({text: data.response})
+            });
+            saveBtn.textContent = 'Saved!';
+            saveBtn.disabled = true;
+        };
+        msgEl.appendChild(saveBtn);
+    });
+
+    function addMessage(text){
+        const div = document.createElement('div');
+        div.className = 'msg';
+        div.textContent = text;
+        messagesDiv.appendChild(div);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        return div;
+    }
+    </script>
+</body>
+</html>
