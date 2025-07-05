@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ZeroGPT Chat</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        #chat { border:1px solid #ccc; padding:10px; height:300px; overflow-y:auto; margin-bottom:10px; }
+        .message { margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <div id="chat"></div>
+    <input type="text" id="msgInput" placeholder="Type a message" />
+    <button id="sendBtn">Envoyer</button>
+
+    <script>
+        const chatDiv = document.getElementById('chat');
+        const input = document.getElementById('msgInput');
+        const history = [];
+
+        document.getElementById('sendBtn').addEventListener('click', send);
+
+        function appendMessage(role, text) {
+            history.push({ role, content: text });
+            const div = document.createElement('div');
+            div.className = 'message';
+            div.textContent = role + ': ' + text;
+            if (role === 'assistant') {
+                const btn = document.createElement('button');
+                btn.textContent = 'Sauvegarder';
+                btn.addEventListener('click', () => save(text));
+                div.appendChild(document.createTextNode(' '));
+                div.appendChild(btn);
+            }
+            chatDiv.appendChild(div);
+            chatDiv.scrollTop = chatDiv.scrollHeight;
+        }
+
+        async function send() {
+            const text = input.value.trim();
+            if (!text) return;
+            appendMessage('user', text);
+            input.value = '';
+            const res = await fetch('/api/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: text, history })
+            });
+            const data = await res.json();
+            appendMessage('assistant', data.reply);
+        }
+
+        async function save(text) {
+            await fetch('/api/save', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ text })
+            });
+        }
+    </script>
+</body>
+</html>
