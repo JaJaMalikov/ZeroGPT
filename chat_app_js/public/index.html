@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZeroGPT Chat</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        #messages { border: 1px solid #ccc; padding: 10px; height: 300px; overflow-y: scroll; }
+        .message { margin-bottom: 10px; }
+        button.save-btn { margin-left: 10px; }
+    </style>
+</head>
+<body>
+    <h1>ZeroGPT Chat</h1>
+    <div id="messages"></div>
+    <input type="text" id="input" placeholder="Votre message" style="width:80%">
+    <button id="send">Envoyer</button>
+
+<script>
+async function sendMessage() {
+    const text = document.getElementById('input').value;
+    const res = await fetch('/api/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: text })
+    });
+    const data = await res.json();
+    addMessage('Vous: ' + text);
+    addMessage('Bot: ' + data.response, true);
+    document.getElementById('input').value = '';
+}
+
+function addMessage(text, savable=false) {
+    const container = document.getElementById('messages');
+    const div = document.createElement('div');
+    div.className = 'message';
+    div.textContent = text;
+    if (savable) {
+        const btn = document.createElement('button');
+        btn.textContent = 'Sauvegarder';
+        btn.className = 'save-btn';
+        btn.onclick = async () => {
+            await fetch('/api/save', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ text: text.replace(/^Bot: /, '') })
+            });
+            btn.disabled = true;
+            btn.textContent = 'Sauvegardé';
+        };
+        div.appendChild(btn);
+    }
+    container.appendChild(div);
+    container.scrollTop = container.scrollHeight;
+}
+
+document.getElementById('send').addEventListener('click', sendMessage);
+</script>
+</body>
+</html>
