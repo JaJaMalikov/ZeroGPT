@@ -6,6 +6,8 @@ import httpx
 from datetime import datetime, timezone
 from email.utils import parsedate_to_datetime
 from .tools.detect_platform import get_os
+from uuid import uuid4
+import fake_useragent
 
 def get_server_time(url="https://goldfish-app-fojmb.ondigitalocean.app"):
     """
@@ -77,3 +79,14 @@ def generate_headers(data):
     }
 
     return headers
+
+
+def generate_image_headers():
+    return {
+        'accept': 'application/json',
+        'content-type': 'application/json',
+        'authorization': str(uuid4()),
+        'origin': 'https://arting.ai',
+        'referer': 'https://arting.ai/',
+        'user-agent': fake_useragent.UserAgent().random
+    }

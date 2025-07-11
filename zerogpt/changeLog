@@ -1,0 +1,10 @@
+version: 1.2.0
+Added:
+1. New parameter "is_nsfw" in create_image
+2. Now you can pass image bytes directly to image_path in image_to_prompt
+3. Added get_prompt_styles function to get available styles for prompt_style in image_to_prompt
+4. Added package update check: if an update is available, a warning is displayed asking to update the package
+5. Added image to prompt to the documentation
+
+Patches:
+1. Fixed "Authorization failed" error in create_image

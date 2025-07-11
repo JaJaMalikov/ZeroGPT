@@ -3,11 +3,13 @@
 import httpx
 import time
 import json
-from .utils.headers import generate_headers, serialize_json_consistently
+from .utils.headers import generate_headers, serialize_json_consistently, generate_image_headers
 from .utils.prompt import Dummy
 from .utils.image import ZeroImage
 
 from typing import Generator, Union, List, Dict, Any
+from uuid import uuid4
+
 class Client:
 	def __init__(self, platform=None):
 		self.platform = platform
@@ -137,6 +139,7 @@ class Client:
 
 	def create_image(self,
 					prompt,
+					nsfw=False,
 					samples=1,
 					resolution=(768, 512),
 					seed=-1,
@@ -156,9 +159,11 @@ class Client:
 		with httpx.Client(http2=True, timeout=30) as client:
 			response = client.post(
 				'https://api.arting.ai/api/cg/text-to-image/create',
+				headers=generate_image_headers(),
 				json={
   "prompt": prompt,
   "model_id": "fuwafuwamix_v15BakedVae",
+  "is_nsfw": nsfw,
   "samples": int(samples),
   "height": int(resolution[0]),
   "width": int(resolution[1]),
@@ -182,6 +187,7 @@ class Client:
 			with httpx.Client(http2=True, timeout=30) as client:
 				response = client.post(
 					'https://api.arting.ai/api/cg/text-to-image/get',
+					headers=generate_image_headers(),
 					json={
 					  'request_id': request_id},
 				)
