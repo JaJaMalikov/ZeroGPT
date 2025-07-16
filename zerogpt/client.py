@@ -29,7 +29,7 @@ class Client:
 			Returns:
 				Generator[str] if stream=True, str if stream=False
 		"""
-		model = 'deepseek-r1-671b' if think else 'deepseek-ai/DeepSeek-V3-0324'
+		model = 'deepseek-ai/DeepSeek-R1-0528' if think else 'deepseek-ai/DeepSeek-V3-0324'
 
 		# Process messages based on input type
 		if not isinstance(input, list):
