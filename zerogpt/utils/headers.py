@@ -71,6 +71,8 @@ def generate_headers(data):
         "X-API-Key": "62852b00cb9e44bca86f0ec7e7455dc6",
         "X-Timestamp": timestamp,
         "X-Signature": signature,
+        "Accept-Encoding": "gzip, deflate",
+        "Content-Encoding": "gzip",
         "Content-Type": "application/json",
         "Accept": "*/*",
         "Origin": "https://www.aiuncensored.info",
