@@ -1,3 +1,31 @@
+version 1.2.3
+Added
+Settings:
+Added “Flexible Optimization Settings.” If you're not sure what you're doing, it’s best not to change anything here!
+
+Performance
+Keep-Alive:
+Persistent connection support. If you initialize AiClient = Client() once at the beginning and reuse it throughout, subsequent requests are processed faster thanks to TCP connection reuse.
+
+Local Address:
+Added the local_address option, which in some cases speeds up DNS resolution and connection setup.
+
+Automatic Retries:
+In case of temporary network failures or server errors (e.g., 5xx responses), requests are automatically retried several times, improving reliability.
+
+Pre-warm:
+Introduced a mechanism that warms up the API in advance before main requests, reducing the latency of the first response.
+
+RETRY STREAM:
+If an error occurs during streaming (stream=True), such as an SSL failure, the client automatically reconnects and retries the request without stopping the main code execution.
+
+RESUME:
+Thanks to this feature, the AI continues generating text from where it left off. While there may be occasional hiccups, the output remains coherent and readable.
+
+version 1.2.2
+Performance:
+1. Improved response speed for LLM(send_message)
+
 version: 1.2.1
 patches:
 1. The reasoning model has been changed to a better version

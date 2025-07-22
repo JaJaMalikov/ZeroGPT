@@ -1,7 +1,7 @@
 from .client import Client
 
 __name__ = "zerogpt"
-__version__ = "1.2.1"
+__version__ = "1.2.3"
 __author__ = "RedPiar"
 __license__ = "MIT"
 __copyright__ = "Copyright 2025 RedPiar"
