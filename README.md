@@ -1,6 +1,6 @@
 # ZeroGPT
 
-[![Version](https://img.shields.io/badge/version-1.2.3-blue.svg)](https://github.com/username/project/releases)
+[![Version](https://img.shields.io/badge/version-1.3.0-blue.svg)](https://github.com/username/project/releases)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 ![Status](https://img.shields.io/badge/status-active-success.svg)
 ![Stage](https://img.shields.io/badge/stage-alpha-red.svg)
