@@ -1,10 +1,29 @@
 from .client import Client
+from .interface import ZeroGPT
+from .utils.cli import Chat
+from .utils.prompt import Dummy
+from .utils.image import ZeroImage
+from .utils.settings import settings
+from .utils.tools.image_to_prompt import image_to_prompt, get_prompt_styles
+from .utils.tools.detect_platform import get_os
 
 __name__ = "zerogpt"
 __version__ = "1.2.3"
 __author__ = "RedPiar"
 __license__ = "MIT"
 __copyright__ = "Copyright 2025 RedPiar"
+
+__all__ = [
+    "Client",
+    "ZeroGPT",
+    "Chat",
+    "Dummy",
+    "ZeroImage",
+    "settings",
+    "image_to_prompt",
+    "get_prompt_styles",
+    "get_os",
+]
 
 
 def _check_pypi_version():
