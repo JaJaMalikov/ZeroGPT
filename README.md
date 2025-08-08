@@ -54,6 +54,16 @@ pip install zerogpt
 
 ## 🛠️ Usage
 
+### 🧩 Unified Interface
+
+```python
+from zerogpt import ZeroGPT
+
+zg = ZeroGPT(instruction="You are helpful")
+answer = zg.chat_message("Hello!")
+zg.save_history("chat.bin")
+```
+
 ### 🔧 Client Initialization
 
 ```python
