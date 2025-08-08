@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ZeroGPT Web Interface</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        textarea { width: 100%; height: 80px; }
+        img { max-width: 100%; margin-top: 10px; }
+        form { margin-bottom: 40px; }
+    </style>
+</head>
+<body>
+    <h1>ZeroGPT Web Interface</h1>
+
+    <h2>Text Generation</h2>
+    <form method="post">
+        <input type="hidden" name="action" value="text">
+        <label>Prompt:</label><br>
+        <textarea name="text_prompt"></textarea><br>
+        <label>Instruction:</label><br>
+        <input type="text" name="instruction"><br>
+        <label><input type="checkbox" name="think"> Think mode</label><br>
+        <label><input type="checkbox" name="uncensored"> Uncensored</label><br>
+        <button type="submit">Generate</button>
+    </form>
+    {% if text_result %}
+    <h3>Result</h3>
+    <pre>{{ text_result }}</pre>
+    {% endif %}
+
+    <h2>Image Generation</h2>
+    <form method="post">
+        <input type="hidden" name="action" value="image">
+        <label>Prompt:</label><br>
+        <textarea name="image_prompt"></textarea><br>
+        <label><input type="checkbox" name="nsfw"> NSFW</label><br>
+        <label>Samples: <input type="number" name="samples" value="1"></label><br>
+        <label>Width: <input type="number" name="width" value="768"></label><br>
+        <label>Height: <input type="number" name="height" value="512"></label><br>
+        <label>Seed: <input type="number" name="seed" value="-1"></label><br>
+        <label>Steps: <input type="number" name="steps" value="50"></label><br>
+        <label>Negative Prompt:</label><br>
+        <textarea name="negative_prompt"></textarea><br>
+        <button type="submit">Create Image</button>
+    </form>
+    {% if image_result %}
+    <h3>Generated Images</h3>
+    {% for img in image_result %}
+        <img src="{{ img }}" alt="generated image"><br>
+    {% endfor %}
+    {% endif %}
+
+    <h2>Image to Prompt</h2>
+    <form method="post" enctype="multipart/form-data">
+        <input type="hidden" name="action" value="prompt">
+        <label>Select image: <input type="file" name="image_file"></label><br>
+        <label>Style:
+            <select name="prompt_style">
+                <option value="tag">Tag</option>
+                <option value="creative">Creative</option>
+                <option value="long">Long</option>
+                <option value="short">Short</option>
+            </select>
+        </label><br>
+        <button type="submit">Convert</button>
+    </form>
+    {% if prompt_result %}
+    <h3>Prompt Result</h3>
+    <pre>{{ prompt_result }}</pre>
+    {% endif %}
+
+</body>
+</html>

@@ -6,3 +6,4 @@ pandas
 requests_toolbelt
 packaging
 urlextract
+Flask

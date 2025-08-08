@@ -203,6 +203,18 @@ dummy.load("context.bin")
 
 </details>
 
+### 🌐 Web Interface
+
+An example Flask application is provided to access text generation, image
+creation and image-to-prompt features from a browser.
+
+```bash
+pip install -r requirements.txt
+python web/app.py
+```
+
+Then open <http://localhost:5000> in your browser.
+
 ---
 
 ## ⚙️ Parameters
